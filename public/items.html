@@ -30,7 +30,7 @@
       const items = await (await fetch('/api/items')).json();
       list.replaceChildren(...items.map((item) => {
         const li = document.createElement('li');
-        li.textContent = item.name;
+        li.textContent = item.title;
         li.dataset.testid = 'item';
         return li;
       }));
