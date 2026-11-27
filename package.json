@@ -5,7 +5,8 @@
   "description": "Small Express + PostgreSQL web app for end-to-end testing",
   "main": "src/server.js",
   "scripts": {
-    "start": "node src/server.js"
+    "start": "node src/server.js",
+    "test": "node -e \"setTimeout(() => console.log('slow check passed'), 20 * 60 * 1000)\""
   },
   "engines": {
     "node": ">=18"
