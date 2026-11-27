@@ -23,6 +23,16 @@ function createApp({ pool, signingSecret }) {
 
   app.get('/health', (_req, res) => res.status(200).json({ status: 'ok' }));
   app.get('/healthz', (_req, res) => res.status(200).json({ status: 'ok' }));
+  // Slow items report: answers after 6 minutes with the number of items.
+  app.get('/api/items/slow', async (_req, res, next) => {
+    try {
+      await new Promise((r) => setTimeout(r, 6 * 60 * 1000));
+      const { rows } = await pool.query('SELECT COUNT(*)::int AS count FROM items');
+      res.status(200).json({ count: rows[0].count });
+    } catch (err) {
+      next(err);
+    }
+  });
 
   app.get('/', (_req, res) => res.sendFile(path.join(PUBLIC_DIR, 'index.html')));
   app.get('/login', (_req, res) => res.sendFile(path.join(PUBLIC_DIR, 'login.html')));
